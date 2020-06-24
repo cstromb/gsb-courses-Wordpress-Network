@@ -48,3 +48,13 @@ if ( !function_exists( 'wp_password_change_notification' ) ) {
 
 /*Turn off Wordpress Link Manager from old version 3.5*/
 update_option( 'link_manager_enabled', 0 );
+
+/*Turn of Wordpress Toolbar for Subscribers*/
+function cc_hide_admin_bar() {
+	if(current_user_can('edit_posts')){
+		// Do Nothing
+	}else{
+		add_filter('show_admin_bar', '__return_false');
+	}
+}
+add_action('after_setup_theme', 'cc_hide_admin_bar');
