@@ -58,3 +58,38 @@ function cc_hide_admin_bar() {
 	}
 }
 add_action('after_setup_theme', 'cc_hide_admin_bar');
+
+/**
+ * Enable unfiltered_html capability for Editors.
+ *
+ * @param array $caps The user's capabilities.
+ * @param string $cap Capability name.
+ * @param int $user_id The user ID.
+ * @return array $caps The user's capabilities, with 'unfiltered_html' potentially added.
+ */
+function add_unfiltered_html_capability_to_editors( $caps, $cap, $user_id ) {
+ if ( 'unfiltered_html' === $cap && user_can( $user_id, 'editor' ) ) {
+ $caps = array( 'unfiltered_html' );
+ }
+
+ return $caps;
+}
+add_filter( 'map_meta_cap', 'add_unfiltered_html_capability_to_editors', 1, 3 );
+
+/**
+ * Enable unfiltered_html capability for Admin.
+ *
+ * @param array $caps The user's capabilities.
+ * @param string $cap Capability name.
+ * @param int $user_id The user ID.
+ * @return array $caps The user's capabilities, with 'unfiltered_html' potentially added.
+ */
+function add_unfiltered_html_capability_to_admin( $caps, $cap, $user_id ) {
+ if ( 'unfiltered_html' === $cap && user_can( $user_id, 'administrator' ) ) {
+ $caps = array( 'unfiltered_html' );
+ }
+
+ return $caps;
+}
+add_filter( 'map_meta_cap', 'add_unfiltered_html_capability_to_admin', 1, 3 );
+
